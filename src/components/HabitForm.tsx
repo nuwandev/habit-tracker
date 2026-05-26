@@ -8,7 +8,7 @@ const HabitForm = () => {
         type="text"
         placeholder="Enter a new habit"
       />
-      <Button>Add</Button>
+      <Button className="rounded-lg px-4 py-2 font-medium">Add</Button>
     </form>
   );
 };
