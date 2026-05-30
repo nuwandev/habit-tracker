@@ -4,14 +4,13 @@ import HabitList, { type Habit } from "./components/HabitList";
 import Header from "./components/Header";
 
 const App = () => {
-  const [habits, setHabits] = useState<Habit[]>([
-    { id: crypto.randomUUID(), name: "Drink Water" },
-    { id: crypto.randomUUID(), name: "Exercise" },
-    { id: crypto.randomUUID(), name: "Read a Book" },
-  ]);
+  const [habits, setHabits] = useState<Habit[]>([]);
 
   const addHabit = (name: string) => {
-    setHabits((prev) => [...prev, { id: crypto.randomUUID(), name }]);
+    setHabits((prev) => [
+      ...prev,
+      { id: crypto.randomUUID(), name, completions: [] },
+    ]);
   };
 
   const deleteHabit = (id: string) =>

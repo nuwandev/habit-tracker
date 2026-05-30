@@ -3,6 +3,7 @@ import {
   endOfWeek,
   format,
   isFuture,
+  isSameDay,
   startOfWeek,
 } from "date-fns";
 import { Button } from "./Button";
@@ -10,6 +11,7 @@ import { Button } from "./Button";
 export type Habit = {
   id: string;
   name: string;
+  completions: Date[];
 };
 
 type HabitListProps = {
@@ -67,6 +69,11 @@ function HabitItem({ habit, deleteHabit }: Readonly<HabitItemProps>) {
             className="flex flex-1 flex-col items-center gap-0.5 rounded-lg text-xs"
             key={day.toISOString()}
             disabled={isFuture(day)}
+            variant={
+              habit.completions.some((d) => isSameDay(d, day))
+                ? "primary"
+                : "secondary"
+            }
           >
             <span className="font-medium">{format(day, "EEE")}</span>
             <span>{format(day, "d")}</span>
