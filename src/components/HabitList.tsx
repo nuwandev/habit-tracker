@@ -66,7 +66,7 @@ function HabitItem({ habit, deleteHabit }: Readonly<HabitItemProps>) {
       <div className="flex gap-1.5">
         {visibleDays.map((day) => (
           <Button
-            className="flex flex-1 flex-col items-center gap-0.5 rounded-lg text-xs"
+            className="flex flex-1 flex-col items-center gap-0.5 rounded-lg text-xs p-3"
             key={day.toISOString()}
             disabled={isFuture(day)}
             variant={
