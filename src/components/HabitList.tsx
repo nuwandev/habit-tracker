@@ -1,16 +1,17 @@
 import {
-  eachDayOfInterval,
-  endOfWeek,
   format,
   isFuture,
   isSameDay,
-  startOfWeek,
   subDays,
 } from "date-fns";
 import { Button } from "./Button";
 import { useHabits, type Habit } from "../context/useHabits";
 
-const HabitList = () => {
+type HabitListProps = {
+  visibleDates: Date[];
+};
+
+const HabitList = ({ visibleDates }: HabitListProps) => {
   const { habits, deleteHabit, toggleCompletion } = useHabits();
 
   if (habits.length === 0) {
@@ -29,6 +30,7 @@ const HabitList = () => {
           deleteHabit={deleteHabit}
           habit={habit}
           toggleCompletion={toggleCompletion}
+          visibleDates={visibleDates}
         />
       ))}
     </div>
@@ -39,18 +41,15 @@ type HabitItemProps = {
   habit: Habit;
   deleteHabit: (id: string) => void;
   toggleCompletion: (id: string, date: Date) => void;
+  visibleDates: Date[];
 };
 
 function HabitItem({
   habit,
   deleteHabit,
   toggleCompletion,
+  visibleDates,
 }: Readonly<HabitItemProps>) {
-  const visibleDays = eachDayOfInterval({
-    start: startOfWeek(new Date(), { weekStartsOn: 1 }),
-    end: endOfWeek(new Date(), { weekStartsOn: 1 }),
-  });
-
   const streak = getStreak(habit.completions);
 
   return (
@@ -71,7 +70,7 @@ function HabitItem({
         </Button>
       </div>
       <div className="flex gap-1.5">
-        {visibleDays.map((day) => (
+        {visibleDates.map((day) => (
           <Button
             className="flex flex-1 flex-col items-center gap-0.5 rounded-lg text-xs p-3"
             key={day.toISOString()}
