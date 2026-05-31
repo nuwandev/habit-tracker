@@ -17,9 +17,14 @@ export type Habit = {
 type HabitListProps = {
   habits: Habit[];
   deleteHabit: (id: string) => void;
+  toggleCompletion: (id: string, date: Date) => void;
 };
 
-const HabitList = ({ habits, deleteHabit }: HabitListProps) => {
+const HabitList = ({
+  habits,
+  deleteHabit,
+  toggleCompletion,
+}: HabitListProps) => {
   if (habits.length === 0) {
     return (
       <div className="text-center text-zinc-500">
@@ -31,7 +36,12 @@ const HabitList = ({ habits, deleteHabit }: HabitListProps) => {
   return (
     <div className="flex flex-col gap-3">
       {habits.map((habit) => (
-        <HabitItem key={habit.id} deleteHabit={deleteHabit} habit={habit} />
+        <HabitItem
+          key={habit.id}
+          deleteHabit={deleteHabit}
+          habit={habit}
+          toggleCompletion={toggleCompletion}
+        />
       ))}
     </div>
   );
@@ -40,9 +50,14 @@ const HabitList = ({ habits, deleteHabit }: HabitListProps) => {
 type HabitItemProps = {
   habit: Habit;
   deleteHabit: (id: string) => void;
+  toggleCompletion: (id: string, date: Date) => void;
 };
 
-function HabitItem({ habit, deleteHabit }: Readonly<HabitItemProps>) {
+function HabitItem({
+  habit,
+  deleteHabit,
+  toggleCompletion,
+}: Readonly<HabitItemProps>) {
   const visibleDays = eachDayOfInterval({
     start: startOfWeek(new Date(), { weekStartsOn: 1 }),
     end: endOfWeek(new Date(), { weekStartsOn: 1 }),
@@ -69,6 +84,7 @@ function HabitItem({ habit, deleteHabit }: Readonly<HabitItemProps>) {
             className="flex flex-1 flex-col items-center gap-0.5 rounded-lg text-xs p-3"
             key={day.toISOString()}
             disabled={isFuture(day)}
+            onClick={() => toggleCompletion(habit.id, day)}
             variant={
               habit.completions.some((d) => isSameDay(d, day))
                 ? "primary"
