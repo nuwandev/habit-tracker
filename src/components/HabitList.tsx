@@ -8,7 +8,7 @@ import {
   subDays,
 } from "date-fns";
 import { Button } from "./Button";
-import { useHabits, type Habit } from "../context/HabitProvider";
+import { useHabits, type Habit } from "../context/useHabits";
 
 const HabitList = () => {
   const { habits, deleteHabit, toggleCompletion } = useHabits();
