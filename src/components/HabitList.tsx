@@ -8,24 +8,11 @@ import {
   subDays,
 } from "date-fns";
 import { Button } from "./Button";
+import { useHabits, type Habit } from "../context/HabitProvider";
 
-export type Habit = {
-  id: string;
-  name: string;
-  completions: Date[];
-};
+const HabitList = () => {
+  const { habits, deleteHabit, toggleCompletion } = useHabits();
 
-type HabitListProps = {
-  habits: Habit[];
-  deleteHabit: (id: string) => void;
-  toggleCompletion: (id: string, date: Date) => void;
-};
-
-const HabitList = ({
-  habits,
-  deleteHabit,
-  toggleCompletion,
-}: HabitListProps) => {
   if (habits.length === 0) {
     return (
       <div className="text-center text-zinc-500">
